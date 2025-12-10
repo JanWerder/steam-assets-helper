@@ -54,7 +54,7 @@ function proceedToEditor() {
     <!-- Header -->
     <header class="flex-shrink-0 px-6 py-4 steam-border bg-steam-green">
       <div class="max-w-4xl mx-auto">
-        <h1 class="text-lg font-bold tracking-wider">Steam Asset Creator</h1>
+        <h1 class="text-lg font-bold tracking-wider">Steam Asset Helper</h1>
         <p class="text-steam-text-muted text-sm mt-1">Generate all required Steam store graphics from your cover art</p>
       </div>
     </header>

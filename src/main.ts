@@ -8,7 +8,7 @@ import SetupView from './views/SetupView.vue'
 import EditorView from './views/EditorView.vue'
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'setup', component: SetupView },
     { path: '/editor', name: 'editor', component: EditorView }

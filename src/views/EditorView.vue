@@ -45,7 +45,7 @@ onMounted(() => {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-        <h1 class="text-sm font-bold tracking-wider text-steam-gold">Steam Asset Creator</h1>
+        <h1 class="text-sm font-bold tracking-wider text-steam-gold">Steam Asset Helper</h1>
       </div>
 
       <div class="flex items-center gap-2 text-xs text-steam-text-muted">
