@@ -53,13 +53,14 @@ const dimensionsLabel = computed(() => {
 <template>
   <button
     @click="emit('select')"
-    class="w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-colors text-left"
+    class="w-full flex items-center gap-2 px-2 py-1.5 text-left transition-colors"
     :class="isSelected
-      ? 'bg-blue-600/20 border border-blue-500/50'
-      : 'hover:bg-surface-800 border border-transparent'"
+      ? 'bg-steam-green-light steam-border'
+      : 'hover:bg-steam-green-dark'"
   >
+    <!-- Thumbnail -->
     <div
-      class="flex-shrink-0 w-12 h-8 rounded bg-surface-700 flex items-center justify-center overflow-hidden"
+      class="flex-shrink-0 w-10 h-7 flex items-center justify-center overflow-hidden steam-border-inset bg-steam-green-darker"
     >
       <div
         v-if="sourceImage"
@@ -68,7 +69,7 @@ const dimensionsLabel = computed(() => {
       />
       <svg
         v-else
-        class="w-4 h-4 text-surface-500"
+        class="w-3 h-3 text-steam-highlight"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -77,16 +78,18 @@ const dimensionsLabel = computed(() => {
       </svg>
     </div>
 
+    <!-- Info -->
     <div class="flex-1 min-w-0">
-      <p class="text-sm font-medium text-surface-200 truncate">{{ asset.name }}</p>
-      <p class="text-xs text-surface-500">{{ dimensionsLabel }}</p>
+      <p class="text-xs font-medium text-steam-text truncate">{{ asset.name }}</p>
+      <p class="text-xs text-steam-text-muted">{{ dimensionsLabel }}</p>
     </div>
 
+    <!-- Status -->
     <div
       v-if="state?.isComplete"
-      class="flex-shrink-0 w-5 h-5 rounded-full bg-green-500/20 flex items-center justify-center"
+      class="flex-shrink-0 w-4 h-4 flex items-center justify-center"
     >
-      <svg class="w-3 h-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg class="w-3 h-3 text-steam-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
       </svg>
     </div>

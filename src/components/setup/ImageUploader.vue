@@ -99,48 +99,47 @@ function loadImage(file: File): Promise<SourceImage> {
 </script>
 
 <template>
-  <div class="flex flex-col gap-3">
+  <div class="flex flex-col gap-2">
+    <!-- Header -->
     <div class="flex items-center justify-between">
       <div>
-        <h3 class="text-lg font-semibold text-surface-100">{{ label }}</h3>
-        <p class="text-sm text-surface-400">{{ description }}</p>
+        <h3 class="text-sm font-semibold text-steam-gold">{{ label }}</h3>
+        <p class="text-xs text-steam-text-muted">{{ description }}</p>
       </div>
       <div
-        class="w-10 h-10 rounded-lg flex items-center justify-center"
-        :class="orientation === 'horizontal' ? 'bg-blue-500/20' : 'bg-purple-500/20'"
+        class="w-8 h-8 flex items-center justify-center steam-border bg-steam-green-dark"
       >
         <svg
           v-if="orientation === 'horizontal'"
-          class="w-5 h-5 text-blue-400"
+          class="w-4 h-4 text-steam-highlight"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <rect x="2" y="6" width="20" height="12" rx="2" stroke-width="2" />
+          <rect x="2" y="6" width="20" height="12" rx="1" stroke-width="2" />
         </svg>
         <svg
           v-else
-          class="w-5 h-5 text-purple-400"
+          class="w-4 h-4 text-steam-highlight"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
         >
-          <rect x="6" y="2" width="12" height="20" rx="2" stroke-width="2" />
+          <rect x="6" y="2" width="12" height="20" rx="1" stroke-width="2" />
         </svg>
       </div>
     </div>
 
+    <!-- Drop Zone (when no image) -->
     <div
       v-if="!image"
       @dragover="handleDragOver"
       @dragleave="handleDragLeave"
       @drop="handleDrop"
       @click="handleClick"
-      class="relative border-2 border-dashed rounded-xl p-8 cursor-pointer transition-all duration-200"
+      class="relative p-6 cursor-pointer transition-colors card-inset"
       :class="[
-        isDragging
-          ? 'border-blue-500 bg-blue-500/10'
-          : 'border-surface-600 hover:border-surface-500 hover:bg-surface-800/50',
+        isDragging ? 'bg-steam-green' : 'hover:bg-steam-green-darker',
         isLoading && 'pointer-events-none opacity-60'
       ]"
     >
@@ -152,46 +151,47 @@ function loadImage(file: File): Promise<SourceImage> {
         @change="handleFileChange"
       />
 
-      <div class="flex flex-col items-center gap-3 text-center">
-        <div class="w-12 h-12 rounded-full bg-surface-700 flex items-center justify-center">
-          <svg v-if="!isLoading" class="w-6 h-6 text-surface-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div class="flex flex-col items-center gap-2 text-center">
+        <div class="w-10 h-10 flex items-center justify-center steam-border bg-steam-green">
+          <svg v-if="!isLoading" class="w-5 h-5 text-steam-highlight" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <svg v-else class="w-6 h-6 text-surface-400 animate-spin" fill="none" viewBox="0 0 24 24">
+          <svg v-else class="w-5 h-5 text-steam-highlight animate-spin" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
         </div>
 
         <div>
-          <p class="text-surface-200 font-medium">
+          <p class="text-steam-text text-sm font-medium">
             {{ isLoading ? 'Loading...' : 'Drop image here or click to browse' }}
           </p>
-          <p class="text-sm text-surface-500 mt-1">PNG, JPG, or WEBP</p>
+          <p class="text-xs text-steam-text-muted mt-0.5">PNG, JPG, or WEBP</p>
         </div>
       </div>
     </div>
 
+    <!-- Image Preview (when image exists) -->
     <div
       v-else
-      class="relative rounded-xl overflow-hidden border border-surface-700 bg-surface-800"
+      class="relative overflow-hidden card-inset"
     >
       <img
         :src="image.dataUrl"
         :alt="label"
-        class="w-full h-48 object-cover"
+        class="w-full h-36 object-cover"
       />
-      <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
 
-      <div class="absolute bottom-0 left-0 right-0 p-4">
+      <div class="absolute bottom-0 left-0 right-0 p-3">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-sm font-medium text-white truncate max-w-[200px]">{{ image.filename }}</p>
-            <p class="text-xs text-surface-300">{{ image.width }} × {{ image.height }}</p>
+            <p class="text-sm font-medium text-white truncate max-w-[180px]">{{ image.filename }}</p>
+            <p class="text-xs text-steam-highlight">{{ image.width }} × {{ image.height }}</p>
           </div>
           <button
             @click.stop="handleClick"
-            class="px-3 py-1.5 text-sm bg-surface-900/80 hover:bg-surface-900 text-surface-200 rounded-lg transition-colors"
+            class="btn btn-secondary text-xs h-6 min-w-0 px-2"
           >
             Change
           </button>
@@ -207,6 +207,7 @@ function loadImage(file: File): Promise<SourceImage> {
       />
     </div>
 
+    <!-- Error Message -->
     <p v-if="error" class="text-sm text-red-400">{{ error }}</p>
   </div>
 </template>

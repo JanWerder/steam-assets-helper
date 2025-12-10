@@ -108,28 +108,30 @@ function toggleAssetSplitMode() {
 </script>
 
 <template>
-  <div class="p-4 space-y-6" v-if="currentAsset && currentState">
-    <div v-if="canUseSplitMode" class="pb-4 border-b border-surface-700">
+  <div class="p-3 space-y-4" v-if="currentAsset && currentState">
+    <!-- Split Mode Toggle -->
+    <div v-if="canUseSplitMode" class="pb-3 border-b border-steam-shadow">
       <div class="flex items-center justify-between">
         <div>
-          <label class="text-sm font-medium text-surface-300">Use Split Mode</label>
-          <p class="text-xs text-surface-500">Background + Logo</p>
+          <label class="text-xs font-medium text-steam-text">Use Split Mode</label>
+          <p class="text-xs text-steam-text-muted">Background + Logo</p>
         </div>
         <button
           @click="toggleAssetSplitMode"
-          class="relative w-11 h-6 rounded-full transition-colors"
-          :class="currentState.useSplitMode ? 'bg-blue-600' : 'bg-surface-600'"
+          class="relative w-10 h-5 transition-colors steam-border-inset"
+          :class="currentState.useSplitMode ? 'bg-steam-green-light' : 'bg-steam-green-darker'"
         >
           <span
-            class="absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform"
+            class="absolute top-0.5 left-0.5 w-4 h-4 bg-steam-green steam-border transition-transform"
             :class="currentState.useSplitMode ? 'translate-x-5' : 'translate-x-0'"
           />
         </button>
       </div>
     </div>
 
+    <!-- Scale Slider -->
     <div>
-      <label class="block text-sm font-medium text-surface-300 mb-2">
+      <label class="block text-xs font-medium text-steam-text mb-1">
         Scale: {{ Math.round(currentState.scale * 100) }}%
       </label>
       <input
@@ -139,37 +141,39 @@ function toggleAssetSplitMode() {
         min="1"
         max="3"
         step="0.05"
-        class="w-full h-2 bg-surface-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+        class="w-full"
       />
-      <div class="flex justify-between text-xs text-surface-500 mt-1">
+      <div class="flex justify-between text-xs text-steam-text-muted mt-0.5">
         <span>100%</span>
         <span>300%</span>
       </div>
     </div>
 
+    <!-- Anchor Point Grid -->
     <div>
-      <label class="block text-sm font-medium text-surface-300 mb-2">Anchor Point</label>
-      <div class="grid grid-cols-3 gap-1 w-24">
+      <label class="block text-xs font-medium text-steam-text mb-1">Anchor Point</label>
+      <div class="grid grid-cols-3 gap-0.5 w-20">
         <button
           v-for="point in anchorPoints"
           :key="point.id"
           @click="updateAnchor(point.id)"
-          class="w-7 h-7 text-xs rounded flex items-center justify-center transition-colors"
+          class="w-6 h-6 text-xs flex items-center justify-center transition-colors"
           :class="currentState.anchor === point.id
-            ? 'bg-blue-600 text-white'
-            : 'bg-surface-700 text-surface-400 hover:bg-surface-600'"
+            ? 'bg-steam-green-light steam-border'
+            : 'bg-steam-green-dark steam-border-inset hover:bg-steam-green'"
           :title="point.label"
         >
           <div
-            class="w-2 h-2 rounded-full"
-            :class="currentState.anchor === point.id ? 'bg-white' : 'bg-surface-500'"
+            class="w-1.5 h-1.5"
+            :class="currentState.anchor === point.id ? 'bg-steam-gold' : 'bg-steam-highlight'"
           />
         </button>
       </div>
     </div>
 
+    <!-- Horizontal Offset -->
     <div>
-      <label class="block text-sm font-medium text-surface-300 mb-2">
+      <label class="block text-xs font-medium text-steam-text mb-1">
         Horizontal Offset: {{ Math.round(currentState.offsetX) }}px
       </label>
       <input
@@ -179,12 +183,13 @@ function toggleAssetSplitMode() {
         :min="-maxOffsets.maxOffsetX"
         :max="maxOffsets.maxOffsetX"
         step="1"
-        class="w-full h-2 bg-surface-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+        class="w-full"
       />
     </div>
 
+    <!-- Vertical Offset -->
     <div>
-      <label class="block text-sm font-medium text-surface-300 mb-2">
+      <label class="block text-xs font-medium text-steam-text mb-1">
         Vertical Offset: {{ Math.round(currentState.offsetY) }}px
       </label>
       <input
@@ -194,28 +199,30 @@ function toggleAssetSplitMode() {
         :min="-maxOffsets.maxOffsetY"
         :max="maxOffsets.maxOffsetY"
         step="1"
-        class="w-full h-2 bg-surface-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+        class="w-full"
       />
     </div>
 
-    <div class="pt-4 border-t border-surface-700 space-y-2">
+    <!-- Action Buttons -->
+    <div class="pt-3 border-t border-steam-shadow space-y-2">
       <button
         @click="resetToDefaults"
-        class="w-full btn btn-secondary text-sm"
+        class="w-full btn btn-secondary text-xs"
       >
         Reset to Defaults
       </button>
       <button
         @click="markComplete"
-        class="w-full btn text-sm"
-        :class="currentState.isComplete ? 'bg-green-600 hover:bg-green-700 text-white' : 'btn-primary'"
+        class="w-full btn text-xs"
+        :class="currentState.isComplete ? 'bg-steam-green-light text-steam-gold' : 'btn-primary'"
       >
         {{ currentState.isComplete ? 'Marked Complete' : 'Mark as Complete' }}
       </button>
     </div>
   </div>
 
-  <div v-else class="p-4 text-center text-surface-500">
+  <!-- No Asset Selected -->
+  <div v-else class="p-3 text-center text-steam-text-muted text-sm">
     Select an asset to adjust
   </div>
 </template>

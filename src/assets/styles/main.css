@@ -1,31 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-surface-50: #f8fafc;
-  --color-surface-100: #f1f5f9;
-  --color-surface-200: #e2e8f0;
-  --color-surface-300: #cbd5e1;
-  --color-surface-400: #94a3b8;
-  --color-surface-500: #64748b;
-  --color-surface-600: #475569;
-  --color-surface-700: #334155;
-  --color-surface-800: #1e293b;
-  --color-surface-900: #0f172a;
-  --color-surface-950: #020617;
+  /* Green Steam color palette */
+  --color-steam-green: #4c5844;
+  --color-steam-green-dark: #3e4637;
+  --color-steam-green-darker: #292d23;
+  --color-steam-green-light: #5a6a50;
+  --color-steam-highlight: #899281;
+  --color-steam-shadow: #292d23;
+  --color-steam-gold: #c4b550;
+  --color-steam-gold-bright: #E3E41F;
+  --color-steam-text: #d8ded3;
+  --color-steam-text-muted: #b8c4ad;
+  --color-steam-selection: #96892D;
 }
 
 @layer base {
   :root {
-    font-family: Inter, system-ui, -apple-system, sans-serif;
+    font-family: "Trebuchet MS", "Verdana", sans-serif;
     line-height: 1.5;
     font-weight: 400;
     color-scheme: dark;
-    color: #e2e8f0;
-    background-color: #020617;
-    font-synthesis: none;
+    color: #d8ded3;
+    background-color: #3e4637;
+    font-size: 14px;
+    -webkit-font-smoothing: none;
     text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
 
   * {
@@ -40,44 +40,314 @@
     overflow: hidden;
   }
 
-  ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+  ::selection {
+    background-color: #96892D;
   }
 
-  ::-webkit-scrollbar-track {
-    background: #1e293b;
-    border-radius: 4px;
+  h1, h2, h3, h4, h5, h6 {
+    color: #c4b550;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  h1 { font-size: 18px; }
+  h2 { font-size: 16px; }
+  h3 { font-size: 14px; }
+
+  /* Green Steam Scrollbar */
+  ::-webkit-scrollbar,
+  ::-webkit-scrollbar-corner {
+    width: 16px;
+    height: 16px;
+    background-color: #5a6a50;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #475569;
-    border-radius: 4px;
+    background-color: #4c5844;
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #64748b;
+    background-color: #5a6a50;
+  }
+
+  ::-webkit-scrollbar-button {
+    width: 16px;
+    height: 16px;
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
+    background: #4c5844;
+  }
+
+  ::-webkit-scrollbar-button:active {
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #5a6a50;
   }
 }
 
 @layer components {
+  /* Steam beveled border - raised appearance */
+  .steam-border {
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
+  }
+
+  /* Steam inset border - sunken appearance */
+  .steam-border-inset {
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+  }
+
+  /* Primary button - Green Steam style */
   .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed;
+    color: white;
+    background-color: #4c5844;
+    height: 28px;
+    min-width: 75px;
+    cursor: pointer;
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
+    font-weight: normal;
+    text-align: center;
+    padding: 4px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: none;
+  }
+
+  .btn:hover {
+    background-color: #5a6a50;
+  }
+
+  .btn:active {
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+  }
+
+  .btn:focus {
+    outline: 1px dashed #292d23;
+    outline-offset: -4px;
+  }
+
+  .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
 
   .btn-primary {
-    @apply bg-blue-600 hover:bg-blue-700 text-white;
+    background-color: #5a6a50;
+    color: #c4b550;
+  }
+
+  .btn-primary:hover {
+    background-color: #6a7a60;
+    color: #E3E41F;
   }
 
   .btn-secondary {
-    @apply bg-surface-700 hover:bg-surface-600 text-surface-100;
+    background-color: #3e4637;
+    color: #d8ded3;
   }
 
+  .btn-secondary:hover {
+    background-color: #4c5844;
+  }
+
+  /* Steam text input */
   .input {
-    @apply w-full px-3 py-2 bg-surface-800 border border-surface-600 rounded-lg text-surface-100 placeholder-surface-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+    color: #d8ded3;
+    background: #3e4637;
+    padding: 6px 10px;
+    font-family: inherit;
+    font-size: 13px;
+    width: 100%;
   }
 
+  .input:focus {
+    outline: 1px dotted #292d23;
+    outline-offset: -3px;
+  }
+
+  .input::placeholder {
+    color: #899281;
+  }
+
+  /* Steam window/card panel */
   .card {
-    @apply bg-surface-900 border border-surface-700 rounded-xl;
+    position: relative;
+    background-color: #4c5844;
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
+  }
+
+  /* Inset panel - for content areas */
+  .card-inset {
+    background-color: #3e4637;
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+  }
+
+  /* Steam range slider */
+  input[type=range] {
+    appearance: none;
+    width: 100%;
+    color: #b8c4ad;
+    background: none;
+    position: relative;
+    height: 20px;
+  }
+
+  input[type=range]::-webkit-slider-runnable-track {
+    background: black;
+    height: 4px;
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    appearance: none;
+    background: #4c5844;
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
+    width: 10px;
+    height: 18px;
+    position: relative;
+    top: -7px;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    background: #5a6a50;
+  }
+
+  input[type=range]::-moz-range-track {
+    background: black;
+    height: 4px;
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    appearance: none;
+    background: #4c5844;
+    border-top: solid 1px #899281;
+    border-bottom: solid 1px #292d23;
+    border-left: solid 1px #899281;
+    border-right: solid 1px #292d23;
+    width: 10px;
+    height: 18px;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  input[type=range]:focus {
+    outline: 1px dotted #292d23;
+    outline-offset: 2px;
+  }
+
+  /* Steam checkbox */
+  .steam-checkbox {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #3e4637;
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .steam-checkbox:checked {
+    background: #4c5844;
+  }
+
+  .steam-checkbox:checked::after {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 1px;
+    width: 5px;
+    height: 9px;
+    border: solid #c4b550;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  /* Steam progress bar */
+  progress {
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 20px;
+    box-sizing: border-box;
+    border-top: solid 1px #292d23;
+    border-bottom: solid 1px #899281;
+    border-left: solid 1px #292d23;
+    border-right: solid 1px #899281;
+    background: #3e4637;
+  }
+
+  progress::-webkit-progress-bar {
+    background: #3e4637;
+    padding: 3px;
+  }
+
+  progress::-webkit-progress-value {
+    height: 14px;
+    background: repeating-linear-gradient(to right, #96892D, #96892D 8px, #3e4637 1px, #3e4637 12px);
+  }
+
+  progress::-moz-progress-bar {
+    height: 14px;
+    background: repeating-linear-gradient(to right, #96892D, #96892D 8px, #3e4637 1px, #3e4637 12px);
+  }
+
+  /* Status indicators */
+  .status-complete {
+    color: #c4b550;
+  }
+
+  .status-pending {
+    color: #899281;
   }
 }

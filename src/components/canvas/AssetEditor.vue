@@ -17,6 +17,7 @@ const { calculateCrop, getMaxOffset } = useImageCrop()
 const { scale, position, handleWheel, resetView, zoomIn, zoomOut, fitToContainer } = useCanvasZoom(stageRef as any)
 
 const isDragging = ref(false)
+const isDraggingLogo = ref(false)
 const dragStart = ref({ x: 0, y: 0 })
 
 const stageConfig = computed(() => ({
@@ -77,7 +78,7 @@ const safeZoneConfig = computed(() => {
     y: safeY,
     width: safeWidth,
     height: safeHeight,
-    stroke: '#22c55e',
+    stroke: '#c4b550',
     strokeWidth: 2,
     dash: [10, 5],
     listening: false
@@ -92,7 +93,7 @@ const borderConfig = computed(() => {
     y: 0,
     width: asset.width,
     height: asset.height,
-    stroke: '#475569',
+    stroke: '#899281',
     strokeWidth: 1,
     listening: false
   }
@@ -124,7 +125,12 @@ const logoConfig = computed(() => {
   }
 })
 
+function handleLogoDragStart() {
+  isDraggingLogo.value = true
+}
+
 function handleLogoDragEnd(e: any) {
+  isDraggingLogo.value = false
   const asset = currentAsset.value
   if (!asset) return
   store.updateAssetState(asset.id, {
@@ -176,14 +182,24 @@ watch(showLogo, (show) => {
   }
 })
 
-function handleContainerMouseDown(e: MouseEvent) {
-  const target = e.target as HTMLElement
-  if (target.tagName === 'CANVAS') {
+function handleStageMouseDown(e: any) {
+  const clickedOnEmpty = e.target === e.target.getStage()
+  const clickedOnBackground = e.target.name() !== 'logo' && !e.target.getParent()?.className?.includes('Transformer')
+
+  if (clickedOnEmpty || (clickedOnBackground && !e.target.name())) {
     isDragging.value = true
     dragStart.value = {
-      x: e.clientX,
-      y: e.clientY
+      x: e.evt.clientX,
+      y: e.evt.clientY
     }
+  }
+}
+
+function handleContainerMouseDown(e: MouseEvent) {
+  if (isDraggingLogo.value) return
+  const target = e.target as HTMLElement
+  if (target.tagName !== 'CANVAS') {
+    isDragging.value = false
   }
 }
 
@@ -264,14 +280,15 @@ defineExpose({
 
 <template>
   <div class="flex flex-col h-full">
-    <div class="flex-shrink-0 px-4 py-3 border-b border-surface-800 flex items-center justify-between">
+    <!-- Header Bar -->
+    <div class="flex-shrink-0 px-3 py-2 steam-border-inset bg-steam-green-dark flex items-center justify-between">
       <div v-if="currentAsset">
-        <h2 class="font-semibold text-surface-200">{{ currentAsset.name }}</h2>
-        <p class="text-xs text-surface-500">
+        <h2 class="font-semibold text-steam-gold text-sm">{{ currentAsset.name }}</h2>
+        <p class="text-xs text-steam-text-muted">
           {{ currentAsset.width }} × {{ currentAsset.height }} &middot; {{ currentAsset.description }}
         </p>
       </div>
-      <div v-else class="text-surface-500">Select an asset to edit</div>
+      <div v-else class="text-steam-text-muted text-sm">Select an asset to edit</div>
 
       <CanvasToolbar
         :scale="scale"
@@ -282,25 +299,29 @@ defineExpose({
       />
     </div>
 
+    <!-- Canvas Area -->
     <div
       ref="containerRef"
-      class="flex-1 overflow-hidden bg-surface-950 relative select-none"
+      class="flex-1 overflow-hidden bg-steam-green-darker relative select-none"
       :class="isDragging ? 'cursor-grabbing' : 'cursor-grab'"
       @mousedown="handleContainerMouseDown"
       @mousemove="handleContainerMouseMove"
       @mouseup="handleContainerMouseUp"
       @mouseleave="handleContainerMouseUp"
     >
+      <!-- Checker Pattern Background -->
       <div
         class="absolute inset-0 pointer-events-none"
-        style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22><rect width=%2220%22 height=%2220%22 fill=%22%230f172a%22/><rect width=%2210%22 height=%2210%22 fill=%22%231e293b%22/><rect x=%2210%22 y=%2210%22 width=%2210%22 height=%2210%22 fill=%22%231e293b%22/></svg>');"
+        style="background-image: url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22><rect width=%2220%22 height=%2220%22 fill=%22%23292d23%22/><rect width=%2210%22 height=%2210%22 fill=%22%233e4637%22/><rect x=%2210%22 y=%2210%22 width=%2210%22 height=%2210%22 fill=%22%233e4637%22/></svg>');"
       />
 
+      <!-- Konva Stage -->
       <v-stage
         v-if="currentAsset && sourceImage"
         ref="stageRef"
         :config="stageConfig"
         @wheel="handleWheel"
+        @mousedown="handleStageMouseDown"
       >
         <v-layer>
           <v-group :config="{ x: position.x, y: position.y, scaleX: scale, scaleY: scale }">
@@ -309,6 +330,7 @@ defineExpose({
               v-if="showLogo && logoConfig"
               ref="logoRef"
               :config="logoConfig"
+              @dragstart="handleLogoDragStart"
               @dragend="handleLogoDragEnd"
               @transformend="handleLogoTransformEnd"
             />
@@ -328,11 +350,12 @@ defineExpose({
         </v-layer>
       </v-stage>
 
+      <!-- Empty State -->
       <div
         v-else
         class="absolute inset-0 flex items-center justify-center"
       >
-        <p class="text-surface-500">Select an asset from the sidebar</p>
+        <p class="text-steam-text-muted">Select an asset from the sidebar</p>
       </div>
     </div>
   </div>
